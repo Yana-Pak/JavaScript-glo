@@ -5,6 +5,9 @@ let rollback = 25;
 let fullPrice = 5500000;
 let adaptive = true;
 
+let percentRollback;
+let service1, servicePrice1, service2, servicePrice2;
+
 // Вывести в консоль тип данных значений переменных title, fullPrice, adaptive;
 console.log(typeof title);
 console.log(typeof fullPrice);
@@ -12,7 +15,6 @@ console.log(typeof adaptive);
 
 // Вывести в консоль длину строки из переменной screens
 console.log(screens.length);
-
 
 // Вывести в консоль “Стоимость верстки экранов (screenPrice) рублей/ долларов/гривен/юани” и “Стоимость разработки сайта (fullPrice) рублей/ долларов/гривен/юани”
 console.log(`Стоимость верстки экранов ${screenPrice} рублей/ долларов/гривен/юани`);
@@ -54,20 +56,19 @@ adaptive = confirm('Нужен ли адаптив на сайте?');
 console.log(adaptive);
 
 // Спросить у пользователя по 2 раза каждый вопрос и записать ответы в разные переменные 1. “Какой дополнительный тип услуги нужен?” (например service1, service2) 2. “Сколько это будет стоить?” (например servicePrice1, servicePrice2) в итоге 4 вопроса и 4 разные переменных, вопросы задаются в такой последовательности Название - Стоимость - Название - Стоимость
-let service1 = prompt('Какой дополнительный тип услуги нужен?');
-let servicePrice1 = +prompt('Сколько это будет стоить?');
-let service2 = prompt('Какой дополнительный тип услуги нужен? --2');
-let servicePrice2 = +prompt('Сколько это будет стоить? --2');
+service1 = prompt('Какой дополнительный тип услуги нужен?');
+servicePrice1 = +prompt('Сколько это будет стоить?');
+service2 = prompt('Какой дополнительный тип услуги нужен? --2');
+servicePrice2 = +prompt('Сколько это будет стоить? --2');
 // Вычислить итоговую стоимость работы учитывая стоимость верстки экранов и дополнительных услуг (screenPrice + servicePrice1 + servicePrice2) и результат занести в переменную fullPrice
 fullPrice = screenPrice + servicePrice1 + servicePrice2;
 console.log(fullPrice);
 
-let percentRollback = fullPrice * (rollback / 100);
+percentRollback = fullPrice * (rollback / 100);
 console.log(percentRollback);
 // Объявить переменную servicePercentPrice и занести в нее итоговую стоимость за вычетом отката посреднику (servicePercentPrice = fullPrice - Откат посреднику), округлив результат в большую сторону (методы объекта Math в помощь). Вывести servicePercentPrice в консоль.
 const servicePercentPrice = (fullPrice - percentRollback);
 console.log(servicePercentPrice);
-
 
 // Написать конструкцию условий (расчеты приведены в рублях) (вывести в консоль)
 //   - Если fullPrice больше 30000, то “Даем скидку в 10%”
@@ -75,7 +76,6 @@ console.log(servicePercentPrice);
 //   - Если fullPrice меньше 15000 и больше 0 то в консоль вывести сообщение “Скидка не предусмотрена”
 //   - Если отрицательное значение то вывести “Что то пошло не так”
 //   - Учесть варианты 0, 15000 и 30000(к какому уровню не важно)
-
 if (fullPrice <= 0) {
     console.log("Что то пошло не так");
 } else if (fullPrice >= 30000) {
