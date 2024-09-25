@@ -1,19 +1,73 @@
-let title = prompt('Как называется ваш проект?');
-let screens = prompt('Какие типы экранов нужно разработать?');
-let screenPrice = +prompt('Сколько будет стоить данная работа?');
-let rollback = 25;
-let adaptive = confirm('Нужен ли адаптив на сайте?');
-let service1 = prompt('Какой дополнительный тип услуги нужен?');
-let servicePrice1 = +prompt('Сколько это будет стоить?');
-let service2 = prompt('Какой дополнительный тип услуги нужен? --2');
-let servicePrice2 = +prompt('Сколько это будет стоить? --2');
-let fullPrice = screenPrice + servicePrice1 + servicePrice2;
-let percentRollback = fullPrice * (rollback / 100);
+'use strict'
+
+let title;
+let screens;
+let screenPrice;
+let adaptive;
+let rollback = 10;
 let allServicePrices;
-let servicePercentPrice = (fullPrice - percentRollback);
+let fullPrice;
+let servicePercentPrice;
+let service1;
+let service2;
+
+const isNumber = function (num) {
+    return !isNaN(parseFloat(num) && isFinite(num))
+}
+
+const asking = function () {
+    title = prompt('Как называется ваш проект?', 'Калькулятор верстки');
+    screens = prompt('Какие типы экранов нужно разработать?', 'Простые, сложные');
+
+    do {
+        screenPrice = prompt('Сколько будет стоить данная работа?');
+    } while (!isNumber(screenPrice))
+
+    adaptive = confirm('Нужен ли адаптив на сайте?');
+    screenPrice = +screenPrice
+}
+
+const getAllServicePrices = function () {
+    let sum = 0;
+    let sum1 = 0;
+    let sum2 = 0;
+
+    for (let i = 0; i < 2; i++) {
+
+        if (i === 0) {
+            service1 = prompt('Какой дополнительный тип услуги нужен?');
+
+            do {
+                sum1 += prompt('Сколько это будет стоить?')
+            } while (!isNumber(screenPrice))
+
+        } else if (i === 1) {
+            service2 = prompt('Какой дополнительный тип услуги нужен?');
+
+            do {
+                sum2 += prompt('Сколько это будет стоить?')
+            } while (!isNumber(screenPrice))
+        }
+
+    }
+    sum = +sum1 + +sum2
+    return sum
+}
 
 const showTypeOf = function (variable) {
     console.log(variable, typeof variable);
+}
+
+function getFullPrice() {
+    return screenPrice + allServicePrices;
+}
+
+function getServicePercentPrices() {
+    return fullPrice - (fullPrice * (rollback / 100));
+}
+
+function getTitle() {
+    return title[0].toUpperCase() + title.slice(1);
 }
 
 const getRollbackMessage = function () {
@@ -28,38 +82,28 @@ const getRollbackMessage = function () {
     }
 }
 
-// 1) Объявить функцию getAllServicePrices. Функция возвращает сумму всех дополнительных услуг. Результат сохраняем в переменную allServicePrices. Тип - function expression
-const getAllServicePrices = function (num1, num2) {
-    return num1 + num2;
-}
-allServicePrices = getAllServicePrices(servicePrice1, servicePrice2);
-
-// 2) Объявить функцию getFullPrice. Функция возвращает сумму стоимости верстки и стоимости дополнительных услуг (screenPrice + allServicePrices). Результат сохраняем в переменную fullPrice. Тип - function declaration
-function getFullPrice() {
-    return screenPrice + allServicePrices;
-}
+asking()
+allServicePrices = getAllServicePrices();
 fullPrice = getFullPrice()
-
-// 3) Объявить функцию getTitle. Функция возвращает title меняя его таким образом: первый символ с большой буквы, остальные с маленькой". Учесть вариант что строка может начинаться с пустых символов. " КаЛьКулятор Верстки"
-function getTitle() {
-    console.log(title[0].toUpperCase() + title.slice(1))
-    // let result = title.split('').map((char, index) =>
-    //     index === 0 ? char.toUpperCase() : char).join('');
-    // console.log(result);
-}
-
-// 4) Объявить функцию getServicePercentPrices. Функция возвращает итоговую стоимость за вычетом процента отката. Результат сохраняем в переменную servicePercentPrice (итоговая стоимость минус сумма отката)
-function getServicePercentPrices() {
-    return fullPrice - percentRollback;
-}
 servicePercentPrice = getServicePercentPrices();
+title = getTitle();
 
 showTypeOf(title);
 showTypeOf(fullPrice);
 showTypeOf(adaptive);
-getTitle()
-console.log(`типы экранов - ${screens}`);
+showTypeOf(screenPrice);
+showTypeOf(allServicePrices);
 
-getRollbackMessage()
-console.log(fullPrice);
-console.log(servicePercentPrice);
+console.log(`типы экранов - ${screens}`);
+console.log("allServicePrices", allServicePrices);
+
+console.log(getRollbackMessage());
+console.log("fullPrice", fullPrice);
+console.log("servicePercentPrice", servicePercentPrice);
+
+
+// Task
+// 1) Переписать получение значения переменной screenPrice циклом do while. Вопрос должен задаваться один раз обязательно, далее уже по условию
+// 2) Добавить проверку что введённые данные являются числом, которые мы получаем на вопрос "Сколько это будет стоить" в функции getAllServicePrices
+// 3) Поправить проект так, чтоб расчеты велись верно. Проверить типы получаемых переменных и привести их к нужным.
+// 4) Проверить, чтобы все работало и не было ошибок в консоли.
