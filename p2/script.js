@@ -13,27 +13,48 @@
 
 // Программа должна быть выполнена с помощью рекурсии, без единого цикла.
 // Загаданное число должно храниться «в замыкании»
-const valueUser = function () {
-    let value = +prompt("Угадай число от 1 до 100");
-    console.log(value)
-    return value;
-}
-function game(num) {
-    let value = valueUser();
 
-    if (num === value) {
-        alert("Поздравляю, Вы угадали!!!");
-    } else if (num < value) {
-        alert('Загаданное число меньше');
-        game(15)
-    } else if (num > value && value !== 0) {
-        alert('Загаданное число больше');
-        game(15)
-    } else if (isNaN(value)) {
-        alert('Введи число!');
-        game(15)
-    } else {
-        alert('Игра окончена!');
+const initPlay = () => {
+    // замыкаем переменную в возвращаемой функции play
+    const secretNumber = Math.floor(Math.random() * 100) + 1
+    console.log('secretNumber >> ', secretNumber)
+
+    const play = () => {
+        const value = prompt("Угадай число от 1 до 100")
+
+        // отмена
+        if (value === null) {
+            alert('Игра окончена!')
+
+            return
+        }
+
+        const userNumber = Number(value)
+
+        if (isNaN(userNumber)) {
+            alert('Введи число!')
+            play()
+        }
+
+        if (secretNumber === userNumber) {
+            alert("Поздравляю, Вы угадали!!!")
+
+            return
+        }
+
+        if (secretNumber < userNumber) {
+            alert('Загаданное число меньше')
+            play()
+        }
+
+        if (secretNumber > userNumber) {
+            alert('Загаданное число больше')
+            play()
+        }
     }
+
+    return play
 }
-game(15);
+
+const play = initPlay()
+play()
